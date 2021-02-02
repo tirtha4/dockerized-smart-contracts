@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+
+    # ganache-cli ethereum node
+  ganache:
+    image: trufflesuite/ganache-cli
+
+  # smart contracts source for test environment tests and deployment code
+  smart-contracts:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    env_file:
+      - ./.env
+    depends_on:
+      - ganache
+    volumes:
+      # mount  contract build folder
+      - /home/tirtha/Projects/Docker-Smart-Contracts/src/build:/smart-contracts/build/
+      # mount  log files
+      - /home/tirtha/Projects/Docker-Smart-Contracts/logs:/smart-contracts/logs/
+

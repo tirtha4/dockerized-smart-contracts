@@ -1,0 +1,43 @@
+{
+  "name": "dockerized-smart-contracts",
+  "version": "0.1.0",
+  "description": "An automated setup to run, test and deploy smart-contracts with docker",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "setup": "docker-compose up --no-start --build",
+    "ganache":"docker-compose up --build -d ganache",
+    "start": "npm run deploy:smart-contracts && docker-compose up --build ganache",
+    "start-rinkeby": "npm run deploy-rinkeby:smart-contracts",
+    "start:detached": "npm run deploy:smart-contracts && docker-compose up --build -d  ganache ",
+    "start-rinkeby:detached": "npm run deploy-rinkeby:smart-contract",
+    "restart": "docker-compose stop && npm run deploy:smart-contracts && docker-compose up --build ganache ",
+    "restart-rinkeby": "docker-compose stop && npm run deploy-rinkeby:smart-contracts ",
+    "restart:detached": "npm run stop && npm run deploy:smart-contracts && docker-compose up --build -d ganache",
+    "deploy:smart-contracts": "docker-compose stop smart-contracts && docker-compose up --build -d smart-contracts && docker-compose run smart-contracts deploy",
+    "deploy-rinkeby:smart-contracts": "docker-compose stop smart-contracts && docker-compose up --build -d smart-contracts && docker-compose run smart-contracts deploy-rinkeby",
+    "stop": "docker-compose stop",
+    "test:smart-contracts": "docker-compose restart ganache && docker-compose build smart-contracts && docker-compose run smart-contracts test",
+    "lint:smart-contracts": "docker-compose build smart-contracts && docker-compose run smart-contracts lint",
+    "lint-fix:smart-contracts": "docker-compose build smart-contracts && docker-compose run smart-contracts lint-auto-fix",
+    "logs:smart-contracts": "docker-compose logs smart-contracts",
+    "logs:ganache": "docker-compose logs ganache"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tirtha4/dockerized-smart-contracts.git"
+  },
+  "keywords": [
+    "ethereum",
+    "blockchain",
+    "smart-contracts",
+    "docker",
+    "dapp"
+  ],
+  "author": "Tirtha Sarker",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tirtha4/dockerized-smart-contracts/issues"
+  },
+  "homepage": "https://github.com/tirtha4/dockerized-smart-contracts#readme"
+}

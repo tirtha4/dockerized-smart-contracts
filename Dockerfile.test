@@ -1,0 +1,24 @@
+FROM mhart/alpine-node:12
+
+RUN apk add --no-cache make gcc g++ python
+RUN apk add --update tzdata
+ENV TZ=Asia/Kolkata
+
+# Creating Relevant directories
+WORKDIR /smart-contracts
+RUN mkdir logs logs/test-network logs/main-network logs/test
+
+# Install relevant
+COPY src/package.json /smart-contracts/package.json
+COPY src/package-lock.json /smart-contracts/package-lock.json
+RUN npm install
+
+# Add smart-contract relevant code to directory
+COPY src/ /smart-contracts/
+
+# convert shell scripts as executable
+RUN chmod +x ./scripts/*.sh
+
+# Default test command run
+ENTRYPOINT ["npm", "run"]
+CMD ["deploy"]
